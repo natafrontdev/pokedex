@@ -18,7 +18,7 @@ export default observer(
 
     render () {
       const globalStyles = this.props.globalStyles
-      let { pokemonsFilter, loadSelectedType, isFilterLoading, isFiltered } = this.props.FilterStore
+      let { pokemonsFilter, loadSelectedUrl, isFilterLoading, isFiltered } = this.props.FilterStore
       let { pokemonsData, pokemonsLoading } = this.props.PokemonStore
       let { paginationData: { page, itemsPerPage } } = this.props.PaginationStore
       let pokemons = isFiltered ? pokemonsFilter : pokemonsData
@@ -43,7 +43,7 @@ export default observer(
             <Item
               key={item.id}
               globalStyles={globalStyles}
-              loadSelectedType={loadSelectedType}
+              loadSelectedType={loadSelectedUrl}
               {...item} />
           )}
           {isFiltered & pokemonsFilter.length === 0

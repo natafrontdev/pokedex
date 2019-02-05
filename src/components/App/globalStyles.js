@@ -10,7 +10,7 @@ const globalStyles = {
     alignItems: 'center'
   },
   typeItem: {
-    textTransform: 'capitalize',
+    textTransform: 'capitalize'
   },
   type_normal: {
     backgroundColor: '#8a8a59',

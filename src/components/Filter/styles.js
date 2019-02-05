@@ -15,7 +15,7 @@ const styles = {
     zIndex: 10,
     marginBottom: 2,
     backgroundColor: '#fff'
-  },
+  }
 }
 
 export default styles

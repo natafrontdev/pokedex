@@ -11,9 +11,8 @@ class FilterSearch extends React.Component {
   constructor (props) {
     super(props)
 
-    this.onSearchChange = (e) => {
-      const term = e.target.value
-      this.props.setTerm(term)
+    this.handleSearchChange = (event) => {
+      this.props.setTerm(event.target.value)
     }
 
     this.onSearchClear = () => {
@@ -52,7 +51,7 @@ class FilterSearch extends React.Component {
           margin='normal'
           variant='outlined'
           value={this.props.term}
-          onChange={this.onSearchChange}
+          onChange={this.handleSearchChange}
           InputProps={{
             endAdornment: (
               <InputAdornment position='end'>

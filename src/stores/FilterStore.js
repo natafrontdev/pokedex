@@ -10,11 +10,19 @@ export default extendObservable(this, {
   pokemonsTypes: [],
   pokemonsStartData: [],
   term: '',
+  types: [],
 
   setFiltered: action((filtered) => {
     const newFiltered = filtered
     runInAction(() => {
       this.isFiltered = newFiltered
+    })
+  }),
+
+  setTypes: action((type) => {
+    const newTypes = type
+    runInAction(() => {
+      this.types = newTypes
     })
   }),
 
@@ -29,10 +37,21 @@ export default extendObservable(this, {
     })
   }),
 
-  loadSelectedType: action(async (url) => {
+  loadSelectedUrl: action(async (data) => {
     this.isFilterLoading = true
     this.isFiltered = true
-    const response = await pokemonService.loadPokemonsSelectedType(url)
+    const response = await pokemonService.loadPokemonsSelectedUrl(data)
+    const json = await response
+    runInAction(() => {
+      this.pokemonsFilter = json
+      this.isFilterLoading = false
+    })
+  }),
+
+  loadSelectedType: action(async (data) => {
+    this.isFilterLoading = true
+    this.isFiltered = true
+    const response = await pokemonService.loadPokemonsSelectedType(data)
     const json = await response
     runInAction(() => {
       this.pokemonsFilter = json
@@ -41,7 +60,6 @@ export default extendObservable(this, {
   }),
 
   loadStartData: action(async () => {
-    console.log('loadStartData')
     this.isFilterLoading = true
     const response = await pokemonService.loadPokemonsStartData()
     const json = await response.results
@@ -59,7 +77,6 @@ export default extendObservable(this, {
   }),
 
   onSearchChange: action(async (term) => {
-    console.log('StartData', this.pokemonsStartData)
     this.isFilterLoading = true
     this.isFiltered = true
     const items = this.pokemonsStartData
@@ -75,7 +92,6 @@ export default extendObservable(this, {
         .toLowerCase()
         .includes(term.toLowerCase())
     })
-    console.log('Search Store pokemonsSearch', pokemonsSearch)
     const response = pokemonService.loadData(pokemonsSearch)
     const json = await response
     runInAction(() => {

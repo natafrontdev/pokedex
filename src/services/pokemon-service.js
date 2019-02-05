@@ -29,7 +29,9 @@ export default class PokemonService {
   loadData = async (data) => {
     this.pokemonList.length = 0
     await this.putData(data)
-      .then(res => this.getPokemon(res))
+      .then(res => {
+        this.getPokemon(res)
+      })
     return this.pokemonList
   }
 
@@ -38,11 +40,26 @@ export default class PokemonService {
     return resource
   }
 
-  loadPokemonsSelectedType = async (url) => {
+  loadPokemonsSelectedUrl = async (url) => {
     this.pokemonList.length = 0
     const res = await this.getResource(url)
     await this.putPokemonOfType(res.pokemon)
       .then(res => this.getPokemon(res))
+    return this.pokemonList
+  }
+
+  loadPokemonsSelectedType = async (data) => {
+    this.pokemonList.length = 0
+    await this.putData(data)
+      .then(res => {
+        const listPokemon = res.map((data) => data.pokemon)
+        let newListPokemon = listPokemon.reduce((a, b) => a.concat(b))
+        return this.putPokemonOfType(newListPokemon)
+      })
+      .then(res => {
+        this.getPokemon(res)
+      })
+
     return this.pokemonList
   }
 

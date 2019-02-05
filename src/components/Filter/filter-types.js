@@ -14,18 +14,28 @@ class FilterTypes extends Component {
     super(props)
 
     this.state = {
-      type: '',
-      name: '',
       labelWidth: 0
     }
 
-    this.handleChange = event => {
-      this.setState({ [event.target.name]: event.target.value })
-      if (event.target.value === 'all') {
+    this.handleTypesChange = (event) => {
+      this.props.setTypes(event.target.value)
+    }
+
+    this.handleCheck = () => {
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        this.props.loadSelectedType(this.props.types.toJS())
+      }, 1000)
+    }
+  }
+
+  componentDidUpdate (prevProps) {
+    if (prevProps.types !== this.props.types) {
+      if (this.props.types === ['all']) {
         this.props.setFiltered(false)
         this.props.loadPokemons(this.props.itemsPerPage, 0)
       } else {
-        this.props.loadSelectedType(event.target.value.url)
+        this.handleCheck()
       }
     }
   }
@@ -36,9 +46,14 @@ class FilterTypes extends Component {
     })
   }
 
+  componentWillUnmount () {
+    clearTimeout(this.timer)
+  }
+
   render () {
     const {
       types,
+      typesData,
       globalStyles
     } = this.props
 
@@ -47,28 +62,28 @@ class FilterTypes extends Component {
         <FormControl variant='outlined' style={{ ...styles.filterControl, ...styles.typesControl }}>
           <InputLabel
             ref={ref => { this.InputLabelRef = ref }}
-            htmlFor='outlined-type-simple'>
-          Types
+            htmlFor='select-multiple'>
+            Types
           </InputLabel>
           <Select
-            value={this.state.type}
-            onChange={this.handleChange}
+            multiple
+            value={types}
+            onChange={this.handleTypesChange}
             input={
               <OutlinedInput
                 labelWidth={this.state.labelWidth}
                 name='type'
-                id='outlined-type-simple'
-              />
-            }>
+                id='select-multiple'
+              />}>
             <MenuItem value='all'>All</MenuItem>
-            {types.map((type) =>
+            {typesData.map(type => (
               <MenuItem
                 key={type.url}
                 value={type}
-                style={{ ...globalStyles[`type_${type.name}`], ...globalStyles.typeItem }}>
+                style={{ ...globalStyles.typeItem }}>
                 {type.name}
               </MenuItem>
-            )}
+            ))}
           </Select>
         </FormControl>
       </form>

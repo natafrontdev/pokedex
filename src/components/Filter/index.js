@@ -41,7 +41,7 @@ export default observer(
 
     render () {
       let { globalStyles, loadPokemons, count } = this.props
-      let { term, setTerm, onSearchChange, isFiltered } = this.props.FilterStore
+      let { term, types, setTerm, setTypes, onSearchChange, isFiltered } = this.props.FilterStore
       let { page, itemsPerPage, options: { itemsPage, allItems } } = this.props.paginationData
       let allTypes = this.props.FilterStore.pokemonsTypes
       let isApiPagination = !isFiltered
@@ -51,7 +51,7 @@ export default observer(
           container
           spacing={8}
           alignItems={'flex-end'}
-          style={{ ...globalStyles.container, ...styles.stickyTop}}>
+          style={{ ...globalStyles.container, ...styles.stickyTop }}>
           <Grid
             item
             xs={12} sm={12} md={4} lg={4}>
@@ -65,7 +65,9 @@ export default observer(
             item
             xs={12} sm={6} md={4} lg={4}>
             <FilterTypes
-              types={allTypes.slice(0, allTypes.length - 2)}
+              types={types}
+              setTypes={setTypes}
+              typesData={allTypes.slice(0, allTypes.length - 2)}
               loadPokemons={loadPokemons}
               loadSelectedType={this.handleLoadSelectedType}
               setFiltered={this.handleSetFiltered}

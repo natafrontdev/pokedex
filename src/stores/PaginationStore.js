@@ -9,10 +9,8 @@ export default extendObservable(this, {
       'allItems': 949
     }
   },
-  // paginationLoading: false,
 
   changePage: action((page) => {
-    console.log('action changePage - ', page)
     const currentPage = Number(page)
     runInAction(() => {
       this.paginationData.page = currentPage
@@ -20,7 +18,6 @@ export default extendObservable(this, {
   }),
 
   changeItemsPerPage: action(async (items) => {
-    console.log('action changeItemsPerPage')
     const currentItemsPerPage = Number(items)
     runInAction(() => {
       this.paginationData.itemsPerPage = currentItemsPerPage
