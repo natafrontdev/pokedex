@@ -4,7 +4,7 @@ An example implementation of the Poke API v2 (https://pokeapi.co/)
 
 ## Demo
 
-https://nataliababenko.github.io/pokedex/
+https://natafrontdev.github.io/pokedex/
 
 ## Installation
 
