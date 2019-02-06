@@ -49,6 +49,9 @@ export default extendObservable(this, {
   }),
 
   loadSelectedType: action(async (data) => {
+    if (!data.length) {
+      return
+    }
     this.isFilterLoading = true
     this.isFiltered = true
     const response = await pokemonService.loadPokemonsSelectedType(data)

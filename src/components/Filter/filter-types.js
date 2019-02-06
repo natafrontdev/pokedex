@@ -18,7 +18,9 @@ class FilterTypes extends Component {
     }
 
     this.handleTypesChange = (event) => {
-      this.props.setTypes(event.target.value)
+      event.target.value.indexOf('all') !== -1
+        ? this.props.setTypes([])
+        : this.props.setTypes(event.target.value)
     }
 
     this.handleCheck = () => {
@@ -31,7 +33,7 @@ class FilterTypes extends Component {
 
   componentDidUpdate (prevProps) {
     if (prevProps.types !== this.props.types) {
-      if (this.props.types === ['all']) {
+      if (this.props.types.length === 0) {
         this.props.setFiltered(false)
         this.props.loadPokemons(this.props.itemsPerPage, 0)
       } else {
@@ -75,7 +77,9 @@ class FilterTypes extends Component {
                 name='type'
                 id='select-multiple'
               />}>
-            <MenuItem value='all'>All</MenuItem>
+            <MenuItem value='all'>
+              All
+            </MenuItem>
             {typesData.map(type => (
               <MenuItem
                 key={type.url}
