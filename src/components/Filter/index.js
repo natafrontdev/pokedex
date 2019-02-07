@@ -1,5 +1,4 @@
-import React, { Component } from 'react'
-import { observer } from 'mobx-react'
+import React from 'react'
 
 import styles from './styles'
 
@@ -8,85 +7,74 @@ import FilterTypes from './filter-types'
 import FilterSearch from './filter-search'
 import Pagination from '../Pagination'
 
-export default observer(
-  class Filter extends Component {
-    constructor (props) {
-      super(props)
+const Filter = (props) => {
+  const {
+    onSearchChange,
+    onSearchClear,
+    term,
+    setTerm,
 
-      this.handleLoadSelectedType = (url) => {
-        this.props.FilterStore.loadSelectedType(url)
-      }
+    types,
+    setTypes,
+    typesData,
+    loadPokemons,
+    loadSelectedType,
+    setFiltered,
 
-      this.handleSetFiltered = (filtered) => {
-        this.props.FilterStore.setFiltered(filtered)
-      }
+    optionsItemsPerPage,
+    onChangePage,
+    onChangeItemsPerPage,
+    count,
+    itemsPerPage,
+    page,
+    isApiPagination,
+    loadNewPokemons,
 
-      this.handleChangePage = (page) => {
-        this.props.changePage(page)
-      }
+    globalStyles
+  } = props;
 
-      this.handleChangeItemsPerPage = event => {
-        this.props.changeItemsPerPage(event)
-      }
+  return (
+    <Grid
+      container
+      spacing={8}
+      alignItems={'flex-end'}
+      style={{ ...globalStyles.container, ...styles.stickyTop }}>
+      <Grid
+        item
+        xs={12} sm={12} md={4} lg={4}>
+        <FilterSearch
+          onSearchChange={onSearchChange}
+          onSearchClear={onSearchClear}
+          term={term}
+          setTerm={setTerm} />
+      </Grid>
+      <Grid
+        item
+        xs={12} sm={6} md={4} lg={4}>
+        <FilterTypes
+          types={types}
+          setTypes={setTypes}
+          typesData={typesData}
+          loadPokemons={loadPokemons}
+          loadSelectedType={loadSelectedType}
+          setFiltered={setFiltered}
+          globalStyles={globalStyles} />
+      </Grid>
+      <Grid
+        item
+        xs={12} sm={6} md={4} lg={4}>
+        <Pagination
+          optionsItemsPerPage={optionsItemsPerPage}
+          onChangePage={onChangePage}
+          onChangeItemsPerPage={onChangeItemsPerPage}
+          count={count}
+          itemsPerPage={itemsPerPage}
+          page={page}
+          isApiPagination={isApiPagination}
+          loadNewPokemons={loadNewPokemons} />
+      </Grid>
+    </Grid>
+  )
+}
 
-      this.load = (limit, offset) => {
-        this.props.loadPokemons(limit, offset)
-      }
-    }
-
-    componentDidMount () {
-      this.props.FilterStore.loadAllTypes()
-      this.props.FilterStore.loadStartData()
-    }
-
-    render () {
-      let { globalStyles, loadPokemons, count } = this.props
-      let { term, types, setTerm, setTypes, onSearchChange, isFiltered } = this.props.FilterStore
-      let { page, itemsPerPage, options: { itemsPage, allItems } } = this.props.paginationData
-      let allTypes = this.props.FilterStore.pokemonsTypes
-      let isApiPagination = !isFiltered
-
-      return (
-        <Grid
-          container
-          spacing={8}
-          alignItems={'flex-end'}
-          style={{ ...globalStyles.container, ...styles.stickyTop }}>
-          <Grid
-            item
-            xs={12} sm={12} md={4} lg={4}>
-            <FilterSearch
-              onSearchChange={onSearchChange}
-              onSearchClear={loadPokemons}
-              term={term}
-              setTerm={setTerm} />
-          </Grid>
-          <Grid
-            item
-            xs={12} sm={6} md={4} lg={4}>
-            <FilterTypes
-              types={types}
-              setTypes={setTypes}
-              typesData={allTypes.slice(0, allTypes.length - 2)}
-              loadPokemons={loadPokemons}
-              loadSelectedType={this.handleLoadSelectedType}
-              setFiltered={this.handleSetFiltered}
-              globalStyles={globalStyles} />
-          </Grid>
-          <Grid
-            item
-            xs={12} sm={6} md={4} lg={4}>
-            <Pagination
-              optionsItemsPerPage={itemsPage}
-              onChangePage={this.handleChangePage}
-              onChangeItemsPerPage={this.handleChangeItemsPerPage}
-              count={isApiPagination ? allItems : count}
-              itemsPerPage={itemsPerPage}
-              page={page}
-              isApiPagination={isApiPagination}
-              loadNewPokemons={this.load} />
-          </Grid>
-        </Grid>
-      )
-    }
-  })
+export default Filter

@@ -65,13 +65,15 @@ export default class PokemonService {
 
   putData = async (res) => {
     return Promise.all(res.map(async (data) => {
-      return await this.getResource(data.url)
+      const resource = await this.getResource(data.url)
+      return resource
     }))
   }
 
   putPokemonOfType = async (res) => {
     return Promise.all(res.map(async (data) => {
-      return await this.getResource(data.pokemon.url)
+      const resource = await this.getResource(data.pokemon.url)
+      return resource
     }))
   }
 
