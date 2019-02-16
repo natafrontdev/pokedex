@@ -9,7 +9,7 @@ https://natafrontdev.github.io/pokedex/
 ## Installation
 
 ```
-$ git clone https://github.com/nataliababenko/pokedex.git
+$ git clone https://github.com/natafrontdev/pokedex.git
 $ cd pokedex
 $ npm install
 ```
